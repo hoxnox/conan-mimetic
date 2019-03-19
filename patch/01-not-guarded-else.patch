@@ -1,0 +1,14 @@
+diff --git a/mimetic/codec/other_codecs.h b/mimetic/codec/other_codecs.h
+index c4ccf3f..55dfafe 100644
+--- a/mimetic/codec/other_codecs.h
++++ b/mimetic/codec/other_codecs.h
+@@ -90,7 +90,9 @@ struct Lf2CrLf: public unbuffered_codec, public chainable_codec<Lf2CrLf>
+             *out = CR; ++out;
+             *out = LF; ++out; 
+         } else
++        {
+             *out = c; ++out;
++        }
+     }
+     const char* name() const
+     {    

@@ -1,6 +1,6 @@
 from nxtools import NxConanFile
 from conans import tools, AutoToolsBuildEnvironment
-
+from glob import glob
 
 class MimeticConan(NxConanFile):
     name = "mimetic"
@@ -21,10 +21,16 @@ class MimeticConan(NxConanFile):
 
     def do_build(self):
         tools.untargz("mimetic-{v}.tar.gz".format(v=self.version))
+        src_dir = "mimetic-{v}".format(v=self.version)
+        for file in sorted(glob("patch/[0-9]*.patch")):
+            self.output.info("Applying patch '{file}'".format(file=file))
+            tools.patch(base_path=src_dir, patch_file=file, strip=0)
         env_build = AutoToolsBuildEnvironment(self)
         with tools.environment_append(env_build.vars):
             with tools.chdir(self.name + "-{v}".format(v=self.version)):
-                self.run("./configure prefix=\"{staging}\"".format(staging=self.staging_dir))
+                self.run("./configure {shared} prefix=\"{staging}\"".format(
+                     shared="--enable-shared --disable-static" if self.options.shared else "--enable-static --disable-shared",
+                     staging=self.staging_dir))
                 self.run("make install")
 
     def do_package_info(self):
