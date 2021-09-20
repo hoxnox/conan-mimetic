@@ -1,0 +1,12 @@
+diff --git a/mimetic/libconfig.h b/mimetic/libconfig.h
+index 1ded1cd..4d66b51 100644
+--- a/mimetic/libconfig.h
++++ b/mimetic/libconfig.h
+@@ -43,6 +43,7 @@ typedef unsigned int uint;
+ #ifdef CONFIG_UNIX
+ #include <cstdlib>
+ #define PATH_SEPARATOR '/'
++typedef unsigned uint;
+ typedef unsigned int uint32;
+ struct newline_traits
+ {
